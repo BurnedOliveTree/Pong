@@ -22,9 +22,13 @@ class Ball(Drawable):
         self.speed = speed
 
     def move(self, surface: pygame.Surface):
-        # TODO check walls (surface.get_size())
         self.rect.x += self.speed[0]
         self.rect.y += self.speed[1]
+
+        if self.rect.x not in range(0, (surface.get_width() - self.size[0])):
+            self.speed = (-self.speed[0], self.speed[1])
+        if self.rect.y not in range(0, (surface.get_height() - self.size[1])):
+            self.speed = (self.speed[0], -self.speed[1])
 
 
 class Paddle(Drawable):
@@ -33,5 +37,5 @@ class Paddle(Drawable):
         self.surface.fill(colour)
 
     def move(self, surface: pygame.Surface, speed: int):
-        # TODO check walls (surface.get_size())
         self.rect.y += speed
+        self.rect.y = min(max(self.rect.y, 0), surface.get_height() - self.size[1])
