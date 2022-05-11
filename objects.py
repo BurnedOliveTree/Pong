@@ -25,3 +25,13 @@ class Ball(Drawable):
         # TODO check walls (surface.get_size())
         self.rect.x += self.speed[0]
         self.rect.y += self.speed[1]
+
+
+class Paddle(Drawable):
+    def __init__(self, size: tuple[int, int], position: tuple[int, int], colour: tuple[int, int, int] = (122, 11, 192)):
+        super().__init__(size, position, colour)
+        self.surface.fill(colour)
+
+    def move(self, surface: pygame.Surface, speed: int):
+        # TODO check walls (surface.get_size())
+        self.rect.y += speed
