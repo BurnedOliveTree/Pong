@@ -1,5 +1,6 @@
 import pygame
 from objects import Ball, Paddle, TextLabel
+from physics import MagneticField
 
 
 class Game:
@@ -11,6 +12,7 @@ class Game:
         self.ball = Ball(self.display, (32, 32), (64, 64))
         self.paddleOne = Paddle(self.display, (20, 100), (0, 0))
         self.paddleTwo = Paddle(self.display, (20, 100), (size[0] - 20, 0))
+        self.field = MagneticField(1)
         self.score = (0, 0)
         self.score_label = TextLabel(self.display, str(self.score[0])+" : "+str(self.score[1]))
         pygame.display.set_caption("Pong")
@@ -54,6 +56,7 @@ class Game:
                 self.paddleOne.move(paddleSpeed)
 
             self.set_score(self.ball.move([self.paddleOne, self.paddleTwo]))
+            self.ball.set_speed(self.field.apply(self.ball.speed, 1, 1, 1 / self.fps))
             self.render()
 
 
