@@ -39,24 +39,29 @@ class Game:
         shouldContinue = True
         self.ball.set_speed((4, 4))
         paddleSpeed = 5
+        isPaused = False
 
         while shouldContinue:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     shouldContinue = False
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_SPACE:
+                        isPaused = not isPaused
 
-            keys = pygame.key.get_pressed()
-            if keys[pygame.K_UP]:
-                self.paddleTwo.move(-paddleSpeed)
-            if keys[pygame.K_DOWN]:
-                self.paddleTwo.move(paddleSpeed)
-            if keys[pygame.K_w]:
-                self.paddleOne.move(-paddleSpeed)
-            if keys[pygame.K_s]:
-                self.paddleOne.move(paddleSpeed)
+            if not isPaused:
+                keys = pygame.key.get_pressed()
+                if keys[pygame.K_UP]:
+                    self.paddleTwo.move(-paddleSpeed)
+                if keys[pygame.K_DOWN]:
+                    self.paddleTwo.move(paddleSpeed)
+                if keys[pygame.K_w]:
+                    self.paddleOne.move(-paddleSpeed)
+                if keys[pygame.K_s]:
+                    self.paddleOne.move(paddleSpeed)
 
-            self.set_score(self.ball.move([self.paddleOne, self.paddleTwo]))
-            self.ball.set_speed(self.field.apply(self.ball.speed, 1, 1, 1 / self.fps))
+                self.set_score(self.ball.move([self.paddleOne, self.paddleTwo]))
+                self.ball.set_speed(self.field.apply(self.ball.speed, 1, 1, 1 / self.fps))
             self.render()
 
 
