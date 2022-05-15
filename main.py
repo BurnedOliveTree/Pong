@@ -1,18 +1,19 @@
 import pygame
 from objects import Ball, Paddle, TextLabel
 from physics import MagneticField
+from config import CHARGE, FPS, INDUCTION, MASS, WINDOW_SIZE
 
 
 class Game:
     def __init__(self, size: tuple[int, int]):
         self.display = pygame.display.set_mode(size)
         self.clock = pygame.time.Clock()
-        self.fps = 60
+        self.fps = FPS
         self.background_colour = (26, 26, 64)
         self.ball = Ball(self.display, (32, 32), (64, 64))
         self.paddleOne = Paddle(self.display, (20, 100), (0, 0))
         self.paddleTwo = Paddle(self.display, (20, 100), (size[0] - 20, 0))
-        self.field = MagneticField(1)
+        self.field = MagneticField(INDUCTION)
         self.score = (0, 0)
         self.score_label = TextLabel(self.display, str(self.score[0])+" : "+str(self.score[1]))
         pygame.display.set_caption("Pong")
@@ -61,11 +62,11 @@ class Game:
                     self.paddleOne.move(paddleSpeed)
 
                 self.set_score(self.ball.move([self.paddleOne, self.paddleTwo]))
-                self.ball.set_speed(self.field.apply(self.ball.speed, 1, 1, 1 / self.fps))
+                self.ball.set_speed(self.field.apply(self.ball.speed, CHARGE, MASS, 1 / self.fps))
             self.render()
 
 
 if __name__ == "__main__":
     pygame.init()
-    game = Game((800, 600))
+    game = Game(WINDOW_SIZE)
     game.run()
